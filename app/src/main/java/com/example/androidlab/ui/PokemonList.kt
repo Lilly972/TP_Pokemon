@@ -8,13 +8,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.androidlab.Repository.PokemonRepository
 
 @Composable
-fun PokemonList() {
+fun PokemonList(navController: NavHostController) {
     val pokemons = PokemonRepository().getPokemons()
     Column(
         modifier = Modifier
@@ -28,6 +31,13 @@ fun PokemonList() {
         ) {
             items(pokemons) { pokemon ->
                 PokemonCard(pokemon)
+            }
+
+            item {
+                Spacer(modifier = Modifier.height(12.dp))
+                Button(onClick = { navController.navigateUp() }) {
+                    Text(text = "Retour")
+                }
             }
         }
     }
