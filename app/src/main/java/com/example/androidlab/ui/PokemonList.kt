@@ -8,35 +8,65 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.androidlab.Repository.PokemonRepository
 
+@ExperimentalMaterial3Api
 @Composable
 fun PokemonList(navController: NavHostController) {
     val pokemons = PokemonRepository().getPokemons()
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        Spacer(modifier = Modifier.height(24.dp))
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Liste des pokémons") },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Back"
+                        )
+                    }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color(0xFF9363E0)
+                )
+            )
+        }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(16.dp)
         ) {
-            items(pokemons) { pokemon ->
-                PokemonCard(pokemon)
-            }
+            Spacer(modifier = Modifier.height(24.dp))
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                items(pokemons) { pokemon ->
+                    PokemonCard(pokemon)
+                }
 
-            item {
-                Spacer(modifier = Modifier.height(12.dp))
-                Button(onClick = { navController.navigateUp() }) {
-                    Text(text = "Retour")
+                item {
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Button(onClick = { navController.navigateUp() }) {
+                        Text(text = "Retour")
+                    }
                 }
             }
         }
