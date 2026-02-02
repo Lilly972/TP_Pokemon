@@ -11,6 +11,9 @@ import com.example.androidlab.ui.Home
 import com.example.androidlab.ui.PokemonList
 import com.example.androidlab.ui.theme.AndroidLabTheme
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
+import com.example.androidlab.ui.Quiz
 
 @OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {
@@ -27,6 +30,13 @@ class MainActivity : ComponentActivity() {
                     }
                     composable("pokemons") {
                         PokemonList(navController = navController)
+                    }
+                    composable(
+                        route = "quiz/{param}",
+                        arguments = listOf(navArgument("param") { type = NavType.StringType })
+                    ) { backStackEntry ->
+                        val param = backStackEntry.arguments?.getString("param") ?: ""
+                        Quiz(navController = navController, param = param)
                     }
                 }
             }

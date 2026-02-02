@@ -44,5 +44,11 @@ fun Home(navController: NavHostController) {
         ) {
             Text(text = "Lister les pokémons")
         }
+        Button(
+            onClick = { navController.navigate("quiz/Quiz") },
+            modifier = Modifier
+        ) {
+            Text(text = "Quiz")
+        }
     }
 }
